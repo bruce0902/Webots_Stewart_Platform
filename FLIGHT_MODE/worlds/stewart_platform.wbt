@@ -1,0 +1,618 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+  info [
+    ""
+  ]
+  title "Stewart"
+  window "generic"
+  basicTimeStep 4
+  lineScale 1
+}
+Viewpoint {
+  orientation -0.8338543444938328 0.5419858954354303 0.10458595181866016 0.45482746754859465
+  position 3.8565393322480834 10.531026069983437 13.291249097583572
+  near 0.5
+}
+TexturedBackground {
+  texture "empty_office"
+}
+RectangleArena {
+  floorSize 15 15
+  floorAppearance Appearance {
+    texture ImageTexture {
+      url [
+        "textures/carpet.jpg"
+      ]
+    }
+  }
+  wallHeight 0.2
+  wallAppearance Appearance {
+    texture ImageTexture {
+      url [
+        "textures/rock.jpg"
+      ]
+    }
+  }
+}
+TexturedBackgroundLight {
+}
+DEF STEWART_PLATFORM Robot {
+  translation 0 0.05 0
+  children [
+    DEF CYLINDER_BODY Shape {
+      appearance PBRAppearance {
+        baseColor 0.109804 0.960784 0.835294
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.1
+        radius 2.3
+        subdivision 48
+      }
+    }
+    DEF LOWER_HINGE2_0 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor -1.57453 0.120577 1.20951
+      }
+      jointParameters2 JointParameters {
+      }
+      endPoint DEF LOWER_PISTON_0 Solid {
+        translation -1.13137 0.9 1.13137
+        rotation -0.2587530497952834 -0.9656781992359885 0.022637904982089507 2.97302
+        children [
+          DEF UPPER_PISTON_SLIDER_0 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 -1 0
+            }
+            device [
+              LinearMotor {
+                name "piston0"
+                minPosition -0.4
+                maxPosition 0.4
+                maxForce 1000
+              }
+            ]
+            endPoint DEF UPPER_PISTON_0 Solid {
+              translation 0 1.7 0
+              rotation 1 0 0 1.5708
+              children [
+                DEF TWO_CYLS_GROUP Group {
+                  children [
+                    DEF SHORT_CYL_TRANS Transform {
+                      rotation 1 0 0 1.5708
+                      children [
+                        Shape {
+                          appearance DEF PISTON_APPEARANCE BrushedAluminium {
+                            textureTransform TextureTransform {
+                              rotation 1.57
+                              scale 2 2
+                            }
+                          }
+                          geometry Cylinder {
+                            height 0.2
+                            radius 0.1
+                            subdivision 24
+                          }
+                        }
+                      ]
+                    }
+                    DEF THIN_CYL_TRANS Transform {
+                      translation 0 0 0.7
+                      rotation 1 0 0 1.5708
+                      children [
+                        Shape {
+                          appearance USE PISTON_APPEARANCE
+                          geometry Cylinder {
+                            height 1.4
+                            radius 0.07
+                            subdivision 24
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+                DEF UPPER_BALL_TRANS Transform {
+                  translation 0 0 -0.2
+                  children [
+                    Shape {
+                      appearance USE PISTON_APPEARANCE
+                      geometry Sphere {
+                        radius 0.1
+                        subdivision 3
+                      }
+                    }
+                  ]
+                }
+                DEF UPPER_BALL_JOINT_0 BallJoint {
+                  jointParameters BallJointParameters {
+                    anchor 0 0 -0.2
+                  }
+                  endPoint DEF UPPER_PLATFORM Solid {
+                    translation -0.23510673625259418 0.9177168971579649 -0.5141349394534313
+                    rotation 0.12647625825708975 0.6847999113890468 -0.717671817378138 2.653185003989861
+                    children [
+                      Transform {
+                        scale 2 2 2
+                        children [
+                          Armchair {
+                            rotation 0 1 0 1.5708
+                            physics Physics {
+                              density -1
+                              mass 1
+                            }
+                          }
+                        ]
+                      }
+                      DEF UPPER_PLATFORM_SHAPE Shape {
+                        appearance PBRAppearance {
+                          baseColor 0 1 0.498039
+                          roughness 1
+                          metalness 0
+                        }
+                        geometry Cylinder {
+                          height 0.1
+                          radius 1.3
+                          subdivision 24
+                        }
+                      }
+                      Transform {
+                        translation 0 -0.274369 -1.54992
+                        rotation 1 0 0 0.5235989999999997
+                        scale 12 20 1
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              texture ImageTexture {
+                                url [
+                                  "textures/plastic.jpg"
+                                ]
+                              }
+                            }
+                            geometry Box {
+                              size 0.1 0.1 0.1
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    name "upper_platform"
+                    boundingObject USE UPPER_PLATFORM_SHAPE
+                    physics Physics {
+                      density 10
+                    }
+                  }
+                }
+              ]
+              boundingObject USE TWO_CYLS_GROUP
+              physics Physics {
+                density -1
+                mass 0.278345
+                centerOfMass [
+                  0 0 0
+                ]
+                inertiaMatrix [
+                  0.141433 0.141433 0.000842
+                  0 0 0
+                ]
+              }
+            }
+          }
+          DEF LONG_CYL_SHAPE Shape {
+            appearance USE PISTON_APPEARANCE
+            geometry Cylinder {
+              height 1.6
+              radius 0.1
+              subdivision 24
+            }
+          }
+          DEF LOWER_BALL Transform {
+            translation 0 -0.9 0
+            children [
+              Shape {
+                appearance USE PISTON_APPEARANCE
+                geometry Sphere {
+                  radius 0.1
+                  subdivision 3
+                }
+              }
+            ]
+          }
+        ]
+        name "lower piston 0"
+        boundingObject USE LONG_CYL_SHAPE
+        physics Physics {
+          density 10
+        }
+      }
+    }
+    DEF LOWER_HINGE2_1 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor 1.57453 0.120577 1.20951
+      }
+      jointParameters2 JointParameters {
+      }
+      endPoint DEF LOWER_PISTON_1 Solid {
+        translation 1.13137 0.9 1.13137
+        rotation -0.08288149802673905 -0.3093179900997915 0.9473399803056287 0.551288
+        children [
+          DEF UPPER_PISTON_SLIDER_1 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 -1 0
+            }
+            device [
+              LinearMotor {
+                name "piston1"
+                minPosition -0.4
+                maxPosition 0.4
+                maxForce 1000
+              }
+            ]
+            endPoint DEF UPPER_PISTON_1 Solid {
+              translation 0 1.7 0
+              rotation 1 0 0 1.5708
+              children [
+                USE TWO_CYLS_GROUP
+                USE UPPER_BALL_TRANS
+                DEF UPPER_BALL_JOINT_1 BallJoint {
+                  jointParameters BallJointParameters {
+                    anchor 0 0 -0.2
+                  }
+                  endPoint SolidReference {
+                    solidName "upper_platform"
+                  }
+                }
+              ]
+              boundingObject USE TWO_CYLS_GROUP
+              physics Physics {
+                density -1
+                mass 0.278345
+                centerOfMass [
+                  0 0 0
+                ]
+                inertiaMatrix [
+                  0.141433 0.141433 0.000842
+                  0 0 0
+                ]
+              }
+            }
+          }
+          USE LONG_CYL_SHAPE
+          USE LOWER_BALL
+        ]
+        name "lower piston 1"
+        boundingObject USE LONG_CYL_SHAPE
+        physics Physics {
+          density 10
+        }
+      }
+    }
+    DEF LOWER_HINGE2_2 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor 1.83473 0.120577 0.75883
+      }
+      jointParameters2 JointParameters {
+      }
+      endPoint DEF LOWER_PISTON_2 Solid {
+        translation 1.54548 0.9 0.41411
+        rotation -0.22629802870231042 -0.8445560951569543 0.48529805721709407 1.00896
+        children [
+          DEF UPPER_PISTON_SLIDER_2 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 -1 0
+            }
+            device [
+              LinearMotor {
+                name "piston2"
+                minPosition -0.4
+                maxPosition 0.4
+                maxForce 1000
+              }
+            ]
+            endPoint DEF UPPER_PISTON_2 Solid {
+              translation 0 1.7 0
+              rotation 1 0 0 1.5708
+              children [
+                USE TWO_CYLS_GROUP
+                USE UPPER_BALL_TRANS
+                DEF UPPER_BALL_JOINT_2 BallJoint {
+                  jointParameters BallJointParameters {
+                    anchor 0 0 -0.2
+                  }
+                  endPoint SolidReference {
+                    solidName "upper_platform"
+                  }
+                }
+              ]
+              boundingObject USE TWO_CYLS_GROUP
+              physics Physics {
+                density -1
+                mass 0.278345
+                centerOfMass [
+                  0 0 0
+                ]
+                inertiaMatrix [
+                  0.141433 0.141433 0.000842
+                  0 0 0
+                ]
+              }
+            }
+          }
+          USE LONG_CYL_SHAPE
+          USE LOWER_BALL
+        ]
+        name "lower piston 2"
+        boundingObject USE LONG_CYL_SHAPE
+        physics Physics {
+          density 10
+        }
+      }
+    }
+    DEF LOWER_HINGE2_3 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor 0.260201 0.120577 -1.96834
+      }
+      jointParameters2 JointParameters {
+      }
+      endPoint DEF LOWER_PISTON_3 Solid {
+        translation 0.41411 0.9 -1.54548
+        rotation 0.25467102027040395 0.95044407100916 0.17832201018933827 1.96719
+        children [
+          DEF UPPER_PISTON_SLIDER_3 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 -1 0
+            }
+            device [
+              LinearMotor {
+                name "piston3"
+                minPosition -0.4
+                maxPosition 0.4
+                maxForce 1000
+              }
+            ]
+            endPoint DEF UPPER_PISTON_3 Solid {
+              translation 0 1.7 0
+              rotation 1 0 0 1.5708
+              children [
+                USE TWO_CYLS_GROUP
+                USE UPPER_BALL_TRANS
+                DEF UPPER_BALL_JOINT_3 BallJoint {
+                  jointParameters BallJointParameters {
+                    anchor 0 0 -0.2
+                  }
+                  endPoint SolidReference {
+                    solidName "upper_platform"
+                  }
+                }
+              ]
+              boundingObject USE TWO_CYLS_GROUP
+              physics Physics {
+                density -1
+                mass 0.278345
+                centerOfMass [
+                  0 0 0
+                ]
+                inertiaMatrix [
+                  0.141433 0.141433 0.000842
+                  0 0 0
+                ]
+              }
+            }
+          }
+          USE LONG_CYL_SHAPE
+          USE LOWER_BALL
+        ]
+        name "lower piston 3"
+        boundingObject USE LONG_CYL_SHAPE
+        physics Physics {
+          density 10
+        }
+      }
+    }
+    DEF LOWER_HINGE2_4 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor -0.260201 0.120577 -1.96834
+      }
+      jointParameters2 JointParameters {
+      }
+      endPoint DEF LOWER_PISTON_4 Solid {
+        translation -0.41411 0.9 -1.54548
+        rotation 0.24276609074284478 0.9060133427723281 0.3467051310608898 1.3159200000000002
+        children [
+          DEF UPPER_PISTON_SLIDER_4 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 -1 0
+            }
+            device [
+              LinearMotor {
+                name "piston4"
+                minPosition -0.4
+                maxPosition 0.4
+                maxForce 1000
+              }
+            ]
+            endPoint DEF UPPER_PISTON_4 Solid {
+              translation 0 1.7 0
+              rotation 1 0 0 1.5708
+              children [
+                USE TWO_CYLS_GROUP
+                USE UPPER_BALL_TRANS
+                DEF UPPER_BALL_JOINT_4 BallJoint {
+                  jointParameters BallJointParameters {
+                    anchor 0 0 -0.2
+                  }
+                  endPoint SolidReference {
+                    solidName "upper_platform"
+                  }
+                }
+              ]
+              boundingObject USE TWO_CYLS_GROUP
+              physics Physics {
+                density -1
+                mass 0.278345
+                centerOfMass [
+                  0 0 0
+                ]
+                inertiaMatrix [
+                  0.141433 0.141433 0.000842
+                  0 0 0
+                ]
+              }
+            }
+          }
+          USE LONG_CYL_SHAPE
+          USE LOWER_BALL
+        ]
+        name "lower piston 4"
+        boundingObject USE LONG_CYL_SHAPE
+        physics Physics {
+          density 10
+        }
+      }
+    }
+    DEF LOWER_HINGE2_5 Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor -1.83473 0.120577 0.75883
+      }
+      jointParameters2 JointParameters {
+      }
+      endPoint DEF LOWER_PISTON_5 Solid {
+        translation -1.54548 0.9 0.41411
+        rotation 0.25695400986674594 0.9589670495026879 -0.11982000993786238 3.98259
+        children [
+          DEF UPPER_PISTON_SLIDER_5 SliderJoint {
+            jointParameters JointParameters {
+              axis 0 -1 0
+            }
+            device [
+              LinearMotor {
+                name "piston5"
+                minPosition -0.4
+                maxPosition 0.4
+                maxForce 1000
+              }
+            ]
+            endPoint DEF UPPER_PISTON_5 Solid {
+              translation 0 1.7 0
+              rotation 1 0 0 1.5708
+              children [
+                USE TWO_CYLS_GROUP
+                USE UPPER_BALL_TRANS
+                DEF UPPER_BALL_JOINT_5 BallJoint {
+                  jointParameters BallJointParameters {
+                    anchor 0 0 -0.2
+                  }
+                  endPoint SolidReference {
+                    solidName "upper_platform"
+                  }
+                }
+              ]
+              boundingObject USE TWO_CYLS_GROUP
+              physics Physics {
+                density -1
+                mass 0.278345
+                centerOfMass [
+                  0 0 0
+                ]
+                inertiaMatrix [
+                  0.141433 0.141433 0.000842
+                  0 0 0
+                ]
+              }
+            }
+          }
+          USE LONG_CYL_SHAPE
+          USE LOWER_BALL
+        ]
+        name "lower piston 5"
+        boundingObject USE LONG_CYL_SHAPE
+        physics Physics {
+          density 10
+        }
+      }
+    }
+  ]
+  boundingObject USE CYLINDER_BODY
+  physics Physics {
+    density 250
+  }
+  controller "stewart_platform"
+}
+DEF TV Transform {
+  translation 0 2.2 -5
+  rotation 0 1 0 -3.1415853071795863
+  scale 12 12 3
+  children [
+    Monitor {
+    }
+  ]
+}
+DEF TABLE Transform {
+  translation 0 0 -4.62
+  scale 4 3 2
+  children [
+    Table {
+    }
+  ]
+}
+DEF TESTING_BAll Transform {
+  translation -0.9344 2.595 -0.3133
+  children [
+    Shape {
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+}
+DEF IMAGE Transform {
+  translation -2.61577 3.57 -4.96174
+  rotation 0 -1 0 0.000796533
+  scale 10.5 5.2 1
+  children [
+    Shape {
+      appearance Appearance {
+        texture ImageTexture {
+          url [
+            "D:/OneDrive/桌面/project/高等机构动力学/flight.png"
+          ]
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            0.5 0 0
+            0.5 0.5 0
+            0 0.5 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            1 1
+            0 1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 3, -1
+        ]
+        texCoordIndex [
+          0, 1, 2, 3, -1
+        ]
+      }
+    }
+  ]
+}
+DEF LIGHT Transform {
+  translation 0 5.81 0
+  children [
+    PointLight {
+      attenuation 0 0 1
+      intensity 5
+      location 0 0.3 0
+    }
+  ]
+}
