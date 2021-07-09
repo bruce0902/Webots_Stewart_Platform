@@ -1,4 +1,4 @@
-#include <math.h>
+//webots stewart platform#include <math.h>
 #include <stdio.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
