@@ -7,8 +7,8 @@
 4.代码为controllers\stewart_platform里的stewart_platform.c文件。   
 
 模式介绍  
-ACTION MODE: 对应守望先锋里的英雄铁拳  
-FLIGHT MODE: 用于飞行模拟  
-GAME MODE: 做了一个小游戏，通过操控手柄让小球通过迷宫  
-MOVIE MODE: 用于电影特效的拍摄  
-RACING MODE: 用于赛车模拟器
+ACTION_MODE: 对应守望先锋里的英雄铁拳  
+FLIGHT_MODE: 用于飞行模拟  
+GAME_MODE: 做了一个小游戏，通过操控手柄让小球通过迷宫  
+MOVIE_MODE: 用于电影特效的拍摄  
+RACING_MODE: 用于赛车模拟器
